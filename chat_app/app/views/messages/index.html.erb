@@ -1,0 +1,43 @@
+Signed in as @<%= @user.name %>.
+
+
+<div id='messages'> <br></div>
+
+<br/><br/>
+
+<%= form_for :message, url:   group_messages_path , remote: true, id: 'messages-form' do |f| %>
+  <%= f.label :body, 'Enter a message:'  %><br/>
+  <%= f.text_field :body %><br/>
+
+<%= f.hidden_field :user_id, :value => "#{@user.id}" %>
+<%= f.hidden_field :group_id, :value => "#{@group.id}" %>
+
+<div class ="m" value ="messages_<%= @group.name%>" >
+  <%= f.submit 'Send message' , :id => 'm', :class => 'm', :value =>"messages_#{@group.name}" %>
+  </div>
+<% end %>
+
+<!--body onbeforeunload="deleteAllCookies()"-->
+
+<script type="text/javascript">
+
+var delete_cookie = function(name) {
+    document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+};
+
+function deleteAllCookies() {
+$.ajax({
+       method: 'delete',
+       url:'/sessions/delete_cookies',
+       cache: false,
+       data: {id: <%= @user.id %>},
+       success: function(html){
+       alert("success");
+       }
+      });
+
+   delete_cookie('username');
+}
+
+
+</script>

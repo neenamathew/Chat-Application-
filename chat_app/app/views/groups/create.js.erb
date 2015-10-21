@@ -1,0 +1,1 @@
+$(".list_groups").empty().append("<%= escape_javascript(render(:partial => 'group', locale: {groups: @groups}, layout: false ).html_safe) %>")
